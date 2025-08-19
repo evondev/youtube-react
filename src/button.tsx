@@ -48,7 +48,7 @@ export default function Button({
   const loadingSizeClassNames: Record<ButtonSize, string> = {
     sm: "size-4",
     md: "size-5",
-    lg: "size-6",
+    lg: "size-8 border-4",
   };
 
   const { className: iconLeftClassName, ...iconLeftProps } =
@@ -68,7 +68,7 @@ export default function Button({
   const loading = (
     <div
       className={twMerge(
-        "size-5 border-2 border-current border-t-transparent border-b-transparent animate-spin rounded-full absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
+        "size-5 border-2 border-current border-t-transparent border-b-transparent animate-spin rounded-full absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 [&~*]:opacity-0 [&~*]:invisible",
         loadingSizeClassNames[size]
       )}
     ></div>
@@ -82,16 +82,12 @@ export default function Button({
         sizeClassNames[size],
         className
       )}
+      disabled={buttonProps.disabled || isLoading}
       {...buttonProps}
     >
-      {isLoading ? (
-        loading
-      ) : (
-        <>
-          {iconLeftClone}
-          {children}
-        </>
-      )}
+      {isLoading && loading}
+      {iconLeftClone}
+      {isLoading ? <div>{children}</div> : children}
     </button>
   );
 }
